@@ -1,1 +1,55 @@
-runs
+# ── Python / Jupyter ──
+__pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual environments ──
+.venv/
+venv/
+env/
+ENV/
+
+# ── Model weights (large files — mount at runtime) ──
+Models/*.pth
+Models/*.pt
+Models/*.bin
+Models/*.safetensors
+
+# ── Datasets ──
+Data/
+
+# ── TensorBoard runs ──
+runs/
+
+# ── Docker ──
+.docker/
+
+# ── Environment / secrets ──
+.env
+.env.*
+*.secret
+
+# ── Editor ──
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Node (if any tooling added) ──
+node_modules/
+
+# ── HuggingFace cache ──
+.cache/
+huggingface/

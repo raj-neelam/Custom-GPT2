@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build: ./backend
+    container_name: gpt2-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount model weights from host — no need to bundle in image
+      - ./Models:/Models:ro
+    environment:
+      - MODEL_PATH=/Models/GPT2-Pretrained.pth
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s   # model load can take time
+
+  frontend:
+    build: ./frontend
+    container_name: gpt2-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped

@@ -1,5 +1,9 @@
+# Root requirements (for notebook / local dev)
 torch
 tiktoken
 tqdm
 tensorboard
 transformers
+fastapi
+uvicorn[standard]
+pydantic
