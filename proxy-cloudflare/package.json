@@ -1,0 +1,13 @@
+{
+  "name": "gpt2-proxy",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker proxy for Hugging Face Inference API — hides HF_TOKEN from browser",
+  "scripts": {
+    "dev":    "wrangler dev",
+    "deploy": "wrangler publish",
+    "secret": "wrangler secret put HF_TOKEN"
+  },
+  "devDependencies": {
+    "wrangler": "^2.20.0"
+  }
+}
