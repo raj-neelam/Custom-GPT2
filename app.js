@@ -74,7 +74,7 @@
       const data = await res.json();
       if (data.status === "ok") {
         setStatus("ok", "HF Ready");
-        modelLabel.textContent = data.model || "gpt2";
+        modelLabel.textContent = data.model || "meta-llama/Llama-3.2-1B-Instruct";
         modelLabel.hidden      = false;
         apiReady = true;
       } else {
@@ -122,7 +122,7 @@
 
   function acceptGhost() {
     if (!ghostSuggestion) return;
-    editor.innerText = getPrompt() + ghostSuggestion;
+    editor.innerText = getPrompt() + ghostSuggestion + " ";
     moveCursorToEnd(editor);
     clearGhost();
     schedulePredict();
@@ -141,12 +141,14 @@
   // Predict — top-10 next tokens + ghost text
   // ─────────────────────────────────────────────────────────────
   async function predict() {
-    const prompt = getPrompt().trim();
-    if (!prompt || !apiReady) {
+    const rawPrompt = getPrompt();
+    if (!rawPrompt.trim() || !apiReady) {
       renderPredictionsPlaceholder();
       clearGhost();
       return;
     }
+
+    const prompt = rawPrompt;
 
     try {
       const res = await fetch(PROXY_URL + "/predict", {
@@ -186,7 +188,12 @@
    */
   async function buildGhostChain(prompt, firstWord, n) {
     let accumulated = firstWord;
-    let currentPrompt = prompt + firstWord;
+    let currentPrompt = prompt;
+
+    if (currentPrompt.length > 0 && !/\\s$/.test(currentPrompt) && !/^[.,;?!'"]/.test(firstWord)) {
+      accumulated = " " + firstWord;
+    }
+    currentPrompt += accumulated;
 
     for (let i = 1; i < n; i++) {
       try {
@@ -203,12 +210,18 @@
         const d = await res.json();
         const top = d.top_predictions?.[0];
         if (!top) break;
-        accumulated    += top.word;
-        currentPrompt  += top.word;
+
+        let nextWord = top.word;
+        if (!/^[.,;?!'"]/.test(nextWord)) {
+          nextWord = " " + nextWord;
+        }
+
+        accumulated    += nextWord;
+        currentPrompt  += nextWord;
       } catch { break; }
     }
 
-    setGhost(getPrompt(), accumulated);
+    setGhost(prompt, accumulated);
   }
 
   function schedulePredict() {
@@ -272,7 +285,11 @@
 
   function insertWord(word) {
     clearGhost();
-    editor.innerText = getPrompt() + word;
+    let p = getPrompt();
+    if (p.length > 0 && !/\\s$/.test(p) && !/^[.,;?!'"]/.test(word)) {
+      p += " ";
+    }
+    editor.innerText = p + word + " ";
     moveCursorToEnd(editor);
     schedulePredict();
     editor.focus();
