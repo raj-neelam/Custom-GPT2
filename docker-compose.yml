@@ -19,7 +19,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 60s   # model load can take time
-
+    image: rajgaurav7800/gpt2-backend:latest
   frontend:
     build: ./frontend
     container_name: gpt2-frontend
@@ -29,3 +29,4 @@ services:
       backend:
         condition: service_healthy
     restart: unless-stopped
+    image: rajgaurav7800/gpt2-frontend:latest
