@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GPT-2 Writer — HF Inference</title>
-  <meta name="description" content="Interactive GPT-2 text completion powered by Hugging Face Inference API with real-time next-word predictions and probability visualization." />
+  <meta name="description" content="Interactive GPT-2 text completion powered by Hugging Face Inference API with real-time next-word predictions." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -25,7 +25,7 @@
         <span class="status-dot"></span>
         <span id="status-label">Connecting…</span>
       </div>
-      <span id="model-label" class="device-label" hidden>gpt2</span>
+      <span id="model-label" class="device-label" hidden>openai-community/gpt2</span>
     </div>
   </header>
 
@@ -43,52 +43,15 @@
           id="editor"
           contenteditable="true"
           spellcheck="false"
-          data-placeholder="Start writing — GPT-2 via Hugging Face will predict what comes next…"
+          data-placeholder="Start writing — GPT-2 will predict what comes next…"
           role="textbox"
           aria-multiline="true"
           aria-label="Writing ground"
         ></div>
       </div>
 
-      <!-- ── CONTROLS BAR ── -->
+      <!-- ── ACTIONS BAR ── -->
       <div id="controls-bar">
-        <div class="control-group">
-          <label for="temperature-range" class="control-label">
-            Temperature
-            <span id="temp-value" class="control-value">0.9</span>
-          </label>
-          <input
-            id="temperature-range"
-            type="range"
-            min="0.1" max="2.0" step="0.05" value="0.9"
-            aria-label="Temperature"
-          />
-        </div>
-
-        <div class="control-group">
-          <label for="max-tokens-input" class="control-label">
-            Max tokens
-          </label>
-          <input
-            id="max-tokens-input"
-            type="number"
-            min="1" max="500" value="50"
-            aria-label="Max new tokens"
-          />
-        </div>
-
-        <div class="control-group">
-          <label for="topk-input" class="control-label">
-            Top-K
-          </label>
-          <input
-            id="topk-input"
-            type="number"
-            min="1" max="200" value="50"
-            aria-label="Top K"
-          />
-        </div>
-
         <div class="controls-actions">
           <button id="clear-btn" class="btn btn-ghost" title="Clear editor (Ctrl+Shift+X)">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -110,16 +73,58 @@
 
     <!-- ── SIDEBAR ── -->
     <aside id="sidebar">
-      <div class="sidebar-header">
-        <span class="sidebar-title">Next Word</span>
-        <span id="predict-temp-badge" class="sidebar-temp-badge">t=0.9</span>
-      </div>
-      <div id="predictions-list" class="predictions-list">
-        <div class="predictions-placeholder">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" opacity=".3"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"/></svg>
-          <p>Start typing to see predictions…</p>
+
+      <!-- ── NEXT WORD PREDICTIONS ── -->
+      <div class="sidebar-section">
+        <div class="sidebar-header">
+          <span class="sidebar-title">Next Word</span>
+          <span id="predict-temp-badge" class="sidebar-temp-badge">t=0.9</span>
+        </div>
+        <div id="predictions-list" class="predictions-list">
+          <div class="predictions-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" opacity=".3"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"/></svg>
+            <p>Start typing to see predictions…</p>
+          </div>
         </div>
       </div>
+
+      <!-- ── PARAMETERS PANEL ── -->
+      <div class="sidebar-section sidebar-controls">
+        <div class="sidebar-header">
+          <span class="sidebar-title">Parameters</span>
+        </div>
+
+        <div class="param-row">
+          <label for="temperature-range" class="param-label">
+            Temperature
+            <span id="temp-value" class="param-value">0.9</span>
+          </label>
+          <input
+            id="temperature-range"
+            type="range"
+            min="0.1" max="2.0" step="0.05" value="0.9"
+            aria-label="Temperature"
+          />
+          <div class="param-hints">
+            <span>Precise</span><span>Creative</span>
+          </div>
+        </div>
+
+        <div class="param-row">
+          <label for="max-tokens-input" class="param-label">
+            Max Tokens
+            <span class="param-value">
+              <input
+                id="max-tokens-input"
+                type="number"
+                min="1" max="500" value="50"
+                aria-label="Max new tokens"
+              />
+            </span>
+          </label>
+        </div>
+      </div>
+
     </aside>
 
   </main>

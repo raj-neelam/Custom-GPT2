@@ -29,7 +29,6 @@
   const tempRange    = document.getElementById("temperature-range");
   const tempValue    = document.getElementById("temp-value");
   const maxTokens    = document.getElementById("max-tokens-input");
-  const topKInput    = document.getElementById("topk-input");
   const predList     = document.getElementById("predictions-list");
   const statusBadge  = document.getElementById("status-badge");
   const statusLabel  = document.getElementById("status-label");
@@ -51,7 +50,6 @@
   function getPrompt() { return editor.innerText || ""; }
   function getTemp()   { return parseFloat(tempRange.value); }
   function getMaxTok() { return parseInt(maxTokens.value, 10) || 50; }
-  function getTopK()   { return parseInt(topKInput.value, 10) || 50; }
 
   let toastTimer = null;
   function showToast(msg, type = "") {
@@ -310,7 +308,6 @@
           prompt,
           max_new_tokens: getMaxTok(),
           temperature:    getTemp(),
-          top_k:          getTopK(),
         }),
       });
 

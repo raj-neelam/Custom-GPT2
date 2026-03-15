@@ -8,6 +8,6 @@
     "secret": "wrangler secret put HF_TOKEN"
   },
   "devDependencies": {
-    "wrangler": "^2.20.0"
+    "wrangler": "2.1.15"
   }
 }

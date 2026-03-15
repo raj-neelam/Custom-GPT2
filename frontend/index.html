@@ -50,46 +50,9 @@
         ></div>
       </div>
 
-      <!-- ── CONTROLS BAR ── -->
+      <!-- ── CONTROLS BAR (Buttons only now) ── -->
       <div id="controls-bar">
-        <div class="control-group">
-          <label for="temperature-range" class="control-label">
-            Temperature
-            <span id="temp-value" class="control-value">0.9</span>
-          </label>
-          <input
-            id="temperature-range"
-            type="range"
-            min="0.1" max="2.0" step="0.05" value="0.9"
-            aria-label="Temperature"
-          />
-        </div>
-
-        <div class="control-group">
-          <label for="max-tokens-input" class="control-label">
-            Max tokens
-          </label>
-          <input
-            id="max-tokens-input"
-            type="number"
-            min="1" max="500" value="50"
-            aria-label="Max new tokens"
-          />
-        </div>
-
-        <div class="control-group">
-          <label for="topk-input" class="control-label">
-            Top-K
-          </label>
-          <input
-            id="topk-input"
-            type="number"
-            min="1" max="200" value="50"
-            aria-label="Top K"
-          />
-        </div>
-
-        <div class="controls-actions">
+        <div class="controls-actions" style="margin-left: 0; width: 100%; justify-content: flex-end;">
           <button id="clear-btn" class="btn btn-ghost" title="Clear editor (Ctrl+Shift+X)">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             Clear
@@ -112,12 +75,41 @@
     <aside id="sidebar">
       <div class="sidebar-header">
         <span class="sidebar-title">Next Word</span>
-        <span id="predict-temp-badge" class="sidebar-temp-badge">t=0.9</span>
       </div>
       <div id="predictions-list" class="predictions-list">
         <div class="predictions-placeholder">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2" opacity=".3"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"/></svg>
           <p>Start typing to see predictions…</p>
+        </div>
+      </div>
+      
+      <!-- ── SIDEBAR CONTROLS ── -->
+      <div class="sidebar-controls" style="padding: 16px 20px; border-top: 1px solid var(--border); background: var(--surface2); display: flex; flex-direction: column; gap: 15px;">
+        <div class="control-group" style="justify-content: space-between;">
+          <label for="temperature-range" class="control-label">
+            Temp
+            <span id="temp-value" class="control-value">0.9</span>
+          </label>
+          <input
+            id="temperature-range"
+            type="range"
+            min="0.1" max="2.0" step="0.05" value="0.9"
+            aria-label="Temperature"
+            style="width: 100px;"
+          />
+        </div>
+
+        <div class="control-group" style="justify-content: space-between;">
+          <label for="max-tokens-input" class="control-label">
+            Max tokens
+          </label>
+          <input
+            id="max-tokens-input"
+            type="number"
+            min="1" max="500" value="50"
+            aria-label="Max new tokens"
+            style="width: 70px;"
+          />
         </div>
       </div>
     </aside>

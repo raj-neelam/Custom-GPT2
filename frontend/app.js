@@ -9,7 +9,7 @@
   // ─────────────────────────────────────────────────────────────
   // Config
   // ─────────────────────────────────────────────────────────────
-  const API_BASE        = "/api";          // nginx proxies /api → backend:8000
+  const API_BASE        = "https://gpt2-proxy.singhggaurav14.workers.dev";
   const DEBOUNCE_DELAY  = 450;            // ms after typing to call /predict
   const HEALTH_INTERVAL = 8000;           // ms between health polls
   const GHOST_WORDS     = 5;             // number of ghost words to show
@@ -24,12 +24,10 @@
   const tempRange    = document.getElementById("temperature-range");
   const tempValue    = document.getElementById("temp-value");
   const maxTokens    = document.getElementById("max-tokens-input");
-  const topKInput    = document.getElementById("topk-input");
   const predList     = document.getElementById("predictions-list");
   const statusBadge  = document.getElementById("status-badge");
   const statusLabel  = document.getElementById("status-label");
   const deviceLabel  = document.getElementById("device-label");
-  const tempBadge    = document.getElementById("predict-temp-badge");
   const toast        = document.getElementById("toast");
 
   // ─────────────────────────────────────────────────────────────
@@ -49,7 +47,6 @@
 
   function getTemp()   { return parseFloat(tempRange.value); }
   function getMaxTok() { return parseInt(maxTokens.value, 10) || 50; }
-  function getTopK()   { return parseInt(topKInput.value, 10) || 50; }
 
   let toastTimer = null;
   function showToast(msg, type = "") {
@@ -66,9 +63,9 @@
     try {
       const res  = await fetch(API_BASE + "/health");
       const data = await res.json();
-      if (data.model_loaded) {
+      if (data.status === "ok") {
         setStatus("ok", "Model ready");
-        deviceLabel.textContent = data.device.toUpperCase();
+        deviceLabel.textContent = data.model.toUpperCase();
         deviceLabel.hidden      = false;
         modelReady = true;
       } else {
@@ -95,7 +92,6 @@
   tempRange.addEventListener("input", () => {
     const v = parseFloat(tempRange.value).toFixed(2);
     tempValue.textContent = v;
-    tempBadge.textContent = "t=" + v;
   });
 
   // ─────────────────────────────────────────────────────────────
